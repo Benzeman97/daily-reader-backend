@@ -9,9 +9,10 @@ import net.dailyreader.dto.response.ParagraphAdminResponse;
 public interface NewsAdminService {
 
     NewsAdminResponse saveNews(NewsAdminRequest request);
-
     NewsShortResponse findNews(String title);
     ParagraphAdminResponse findParagraph(int newsId,String paraNum);
     MediaAdminResponse findMedia(int newsId,String mediaType,String mediaNum);
+
+    void deleteNewsById(int id);
 
 }

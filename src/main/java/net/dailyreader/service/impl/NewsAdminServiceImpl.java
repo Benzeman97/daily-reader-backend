@@ -104,6 +104,17 @@ public class NewsAdminServiceImpl implements NewsAdminService {
                 media.getOwnerLink(),media.getVideoId(),media.getIsImgLicensed(),media.getIsImgVertical(),media.getImgHeight(),media.getImgWidth());
     }
 
+    @Override
+    public void deleteNewsById(int id) {
+         News news = newsDao.findById(id)
+                 .orElseThrow(()->{
+                    LOGGER.error(String.format("news is not found with newsId %d",id));
+                    throw new DataNotFoundException(String.format("news is not found with newsId %d",id));
+                 });
+         newsDao.delete(news);;
+         LOGGER.info(String.format("news is deleted with newsid %d",id));
+    }
+
     private News setNews(News news,NewsAdminRequest request){
 
         if(news.getSubTitle().trim().isEmpty())
