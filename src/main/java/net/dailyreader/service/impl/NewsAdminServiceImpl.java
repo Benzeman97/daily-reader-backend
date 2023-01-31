@@ -49,12 +49,7 @@ public class NewsAdminServiceImpl implements NewsAdminService {
         news = newsDao.save(setNews(news,request));
         LOGGER.info(String.format("news has been saved"));
 
-       return new NewsAdminResponse(news.getNewsId(),news.getTitle(), news.getSubTitle(),news.getPreviewImg(),news.getImgUrl(),
-               news.getOrgImg(),news.getImgOwn(),news.getAuthor(),news.getNewsType(),news.getViews(),news.getIsLicensed(),news.getIsAffiliated(),
-               request.getParagraph(),request.getParagraphNum(),request.getMediaType(),request.getMediaNum(),request.getMediaLink(),
-               request.getPostOwner(),request.getMediaTitle(),request.getPicLink(),request.getPicDesc(),request.getPubLink(),request.getPubDate(),
-               request.getOwnerLink(),request.getVideoId(),request.getIsImgLicensed(),request.getIsImgVertical(),request.getImgHeight(),request.getImgWidth(),
-               news.getIsPublished(),true);
+       return new NewsAdminResponse(news.getNewsId(),news.getTitle(),news.getIsPublished(),true);
     }
 
     @Override
