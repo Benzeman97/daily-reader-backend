@@ -18,9 +18,6 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -47,6 +44,10 @@ public class NewsAdminServiceImpl implements NewsAdminService {
                 .orElse(new News());
 
         news = newsDao.save(setNews(news,request));
+        if(!request.getParagraph().trim().isEmpty())
+        saveParagraph(request,news.getNewsId());
+        if(!request.getMediaLink().trim().isEmpty())
+        saveMedia(request,news.getNewsId());
         LOGGER.info(String.format("news has been saved"));
 
        return new NewsAdminResponse(news.getNewsId(),news.getTitle(),news.getIsPublished(),true);
@@ -58,7 +59,7 @@ public class NewsAdminServiceImpl implements NewsAdminService {
                 .orElse(null);
 
         if(Objects.isNull(news)){
-         int id = newsDao.findLastUpdatedNewsId();
+         int id = newsDao.findLastUpdatedNewsId()+1;
          LOGGER.info(String.format("new newsId is returned with %d",id));
             return new NewsShortResponse(id,title,"","","",
                     "","","","",0.0,"","",
@@ -82,6 +83,59 @@ public class NewsAdminServiceImpl implements NewsAdminService {
         LOGGER.info(String.format("paragraph is  found with newsId %d and mediaNum %s",newsId,paraNum));
 
         return new ParagraphAdminResponse(paragraph.getParaId(),paragraph.getParagraph(),paragraph.getParagraphNum());
+    }
+
+    @Override
+    public Paragraph saveParagraph(NewsAdminRequest request,int id) {
+
+        Paragraph paragraph=paragraphDao.findParagraph(request.getNewsId(),request.getParagraphNum()).orElse(new Paragraph());
+        paragraph.setParagraph(request.getParagraph());
+        paragraph.setParagraphNum(request.getParagraphNum());
+        paragraph.setNewsId(id);
+        paragraph=paragraphDao.save(paragraph);
+        LOGGER.info(String.format("paragraph has been saved with id %d",paragraph.getParaId()));
+        return paragraph;
+    }
+
+    @Override
+    public Media saveMedia(NewsAdminRequest request,int id) {
+
+        Media media = mediaDao.findMedia(request.getNewsId(),request.getMediaType().toLowerCase(),request.getMediaNum()).orElse(new Media());
+        media.setMediaType(request.getMediaType().toLowerCase());
+        media.setMediaNum(request.getMediaNum());
+        media.setMediaLink(request.getMediaLink());
+        media.setPostOwner(request.getPostOwner());
+        media.setMediaTitle(request.getMediaTitle());
+        media.setPicLink(request.getPicLink());
+        media.setPicDesc(request.getPicDesc());
+        media.setPubLink(request.getPubLink());
+        media.setPubDate(request.getPubDate());
+        media.setOwnerLink(request.getOwnerLink());
+        media.setVideoId(request.getVideoId());
+        media.setIsImgLicensed(request.getIsImgLicensed());
+        media.setIsImgVertical(request.getIsImgVertical());
+        media.setImgHeight(request.getImgHeight());
+        media.setImgWidth(request.getImgWidth());
+        media.setNewsId(id);
+
+        media=mediaDao.save(media);
+        LOGGER.info(String.format("media has been saved with id %d",media.getMediaId()));
+
+        return media;
+    }
+
+    @Override
+    public void deleteParagraph(int newsId, String paraNum) {
+         ParagraphAdminResponse para = findParagraph(newsId,paraNum);
+         paragraphDao.deleteById(para.getParaId());
+        LOGGER.info(String.format("paragraph has been deleted with id %d",para.getParaId()));
+    }
+
+    @Override
+    public void deleteMedia(int newsId, String mediaType, String mediaNum) {
+         MediaAdminResponse media = findMedia(newsId,mediaType,mediaNum);
+         mediaDao.deleteById(media.getMediaId());
+        LOGGER.info(String.format("media has been deleted with id %d",media.getMediaId()));
     }
 
     @Override
@@ -112,7 +166,7 @@ public class NewsAdminServiceImpl implements NewsAdminService {
 
     private News setNews(News news,NewsAdminRequest request){
 
-        if(news.getSubTitle().trim().isEmpty())
+        if(Objects.isNull(news.getSubTitle()))
             news.setPostedDateTime(LocalDateTime.now());
 
         news.setTitle(request.getTitle());
@@ -126,37 +180,9 @@ public class NewsAdminServiceImpl implements NewsAdminService {
         news.setViews(request.getViews());
         news.setIsLicensed(request.getIsLicensed());
         news.setIsAffiliated(request.getIsAffiliated());
+        news.setIsMainNews(request.getIsMainNews());
         news.setIsPublished(request.getIsPublished());
         news.setUpdatedDateTime(LocalDateTime.now());
-
-        Paragraph paragraph=paragraphDao.findParagraph(request.getNewsId(),request.getParagraphNum()).orElse(new Paragraph());
-        paragraph.setParagraph(request.getParagraph());
-        paragraph.setParagraphNum(request.getParagraphNum());
-
-        List<Paragraph> paragraphs = new ArrayList<>(Arrays.asList(paragraph));
-
-        news.setParagraphs(paragraphs);
-
-        Media media = mediaDao.findMedia(request.getNewsId(),request.getMediaType().toLowerCase(),request.getMediaNum()).orElse(new Media());
-        media.setMediaType(request.getMediaType().toLowerCase());
-        media.setMediaNum(request.getMediaNum());
-        media.setMediaLink(request.getMediaLink());
-        media.setPostOwner(request.getPostOwner());
-        media.setMediaTitle(request.getMediaTitle());
-        media.setPicLink(request.getPicLink());
-        media.setPicDesc(request.getPicDesc());
-        media.setPubLink(request.getPubLink());
-        media.setPubDate(request.getPubDate());
-        media.setOwnerLink(request.getOwnerLink());
-        media.setVideoId(request.getVideoId());
-        media.setIsImgLicensed(request.getIsImgLicensed());
-        media.setIsImgVertical(request.getIsImgVertical());
-        media.setImgHeight(request.getImgHeight());
-        media.setImgWidth(request.getImgWidth());
-
-        List<Media> mediaList = new ArrayList<>(Arrays.asList(media));
-
-        news.setMediaList(mediaList);
 
         return news;
     }

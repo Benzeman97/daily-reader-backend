@@ -29,6 +29,7 @@ public class NewsAdminController {
 
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE},produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<NewsAdminResponse> saveNews(@RequestBody NewsAdminRequest request){
+
          return (request.getTitle().trim().isEmpty() || request.getPreviewImg().trim().isEmpty() ||
                  request.getImgUrl().trim().isEmpty() || request.getNewsType().trim().isEmpty()) ?
                  new ResponseEntity<>(HttpStatus.BAD_REQUEST) :
@@ -56,10 +57,27 @@ public class NewsAdminController {
                  new ResponseEntity<>(newsAdminService.findMedia(newsId,mediaType,mediaNum),HttpStatus.OK);
    }
 
-   @DeleteMapping
-   public void deleteNewsById(int id){
+
+   @DeleteMapping("/{id}")
+   public void deleteNewsById(@PathVariable int id){
         if(id!=0)
             newsAdminService.deleteNewsById(id);
+   }
+
+
+
+   @DeleteMapping("/delete/para/{newsId}/{paraNum}")
+   public void deleteParagraph(@PathVariable int newsId,@PathVariable String paraNum){
+        if(newsId!=0 || !paraNum.trim().isEmpty())
+            newsAdminService.deleteParagraph(newsId,paraNum);
+   }
+
+
+    @DeleteMapping("/delete/media/{newsId}/{mediaType}/{mediaNum}")
+    public void deleteMedia(@PathVariable int newsId,@PathVariable String mediaType,@PathVariable String mediaNum){
+
+        if (newsId!=0 || !mediaType.trim().isEmpty() || !mediaNum.trim().isEmpty())
+            newsAdminService.deleteMedia(newsId,mediaType,mediaNum);
    }
 
 }

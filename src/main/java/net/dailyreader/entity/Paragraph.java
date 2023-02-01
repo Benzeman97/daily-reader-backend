@@ -7,8 +7,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "paragraph", schema = "dailyreader")
-@Getter
-@Setter
+
 public class Paragraph {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -20,8 +19,8 @@ public class Paragraph {
     @Column(name = "paragraph_num")
     private String paragraphNum;
 
-/*    @Column(name = "news_id")
-    private Integer newsId;*/
+    @Column(name = "news_id")
+    private int newsId;
 
     public int getParaId() {
         return paraId;
@@ -47,13 +46,13 @@ public class Paragraph {
         this.paragraphNum = paragraphNum;
     }
 
-   /* public Integer getNewsId() {
+    public int getNewsId() {
         return newsId;
     }
 
     public void setNewsId(Integer newsId) {
         this.newsId = newsId;
-    }*/
+    }
 
 
 }

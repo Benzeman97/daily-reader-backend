@@ -11,8 +11,6 @@ import java.util.List;
 
 @Entity
 @Table(name = "news", schema = "dailyreader")
-@Getter
-@Setter
 public class News {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -52,13 +50,16 @@ public class News {
     @Column(name = "is_published")
     private String isPublished;
 
+    @Column(name = "main_news")
+    private String isMainNews;
+
     @Column(name = "posted_date_time")
     private LocalDateTime postedDateTime;
 
     @Column(name = "updated_date_time")
     private LocalDateTime updatedDateTime;
 
-    @OneToMany(targetEntity = Paragraph.class,cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    /*@OneToMany(targetEntity = Paragraph.class,cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @JoinColumn(name = "news_id",referencedColumnName = "news_id")
     @Fetch(value = FetchMode.SUBSELECT)
     private List<Paragraph> paragraphs;
@@ -66,7 +67,7 @@ public class News {
     @OneToMany(targetEntity = Media.class,cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @JoinColumn(name = "news_id",referencedColumnName = "news_id")
     @Fetch(value = FetchMode.SUBSELECT)
-    private List<Media> mediaList;
+    private List<Media> mediaList;*/
 
 
     public int getNewsId() {
@@ -141,11 +142,11 @@ public class News {
         this.newsType = newsType;
     }
 
-    public Double getViews() {
+    public double getViews() {
         return views;
     }
 
-    public void setViews(Double views) {
+    public void setViews(double views) {
         this.views = views;
     }
 
@@ -189,4 +190,12 @@ public class News {
         this.updatedDateTime = updatedDateTime;
     }
 
+    public String getIsMainNews() {
+        return isMainNews;
+    }
+
+
+    public void setIsMainNews(String isMainNews) {
+        this.isMainNews = isMainNews;
+    }
 }

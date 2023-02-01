@@ -1,9 +1,6 @@
 package net.dailyreader.dto.request;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.io.Serializable;
 
@@ -11,6 +8,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @Getter
 @Setter
+@ToString
 public class NewsAdminRequest implements Serializable {
 
     private int newsId;
@@ -43,4 +41,5 @@ public class NewsAdminRequest implements Serializable {
     private String imgHeight;
     private String imgWidth;
     private String isPublished;
+    private String isMainNews;
 }

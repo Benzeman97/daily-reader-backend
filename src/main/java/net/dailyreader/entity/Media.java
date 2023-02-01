@@ -8,8 +8,6 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "media", schema = "dailyreader")
-@Getter
-@Setter
 public class Media {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -57,8 +55,8 @@ public class Media {
     @Column(name = "img_width")
     private String imgWidth;
 
-   /* @Column(name = "news_id")
-    private Integer newsId;*/
+    @Column(name = "news_id")
+    private int newsId;
 
     public int getMediaId() {
         return mediaId;
@@ -188,13 +186,13 @@ public class Media {
         this.imgWidth = imgWidth;
     }
 
-    /*public Integer getNewsId() {
+    public int getNewsId() {
         return newsId;
     }
 
     public void setNewsId(Integer newsId) {
         this.newsId = newsId;
-    }*/
+    }
 
 
 }
