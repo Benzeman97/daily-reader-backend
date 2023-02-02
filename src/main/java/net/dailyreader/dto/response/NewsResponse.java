@@ -9,7 +9,7 @@ import java.io.Serializable;
 @Getter
 @Setter
 @ToString
-public class NewsShortResponse implements Serializable {
+public class NewsResponse implements Serializable {
 
     private int newsId;
     private String title;
@@ -23,6 +23,7 @@ public class NewsShortResponse implements Serializable {
     private double views;
     private String isLicensed;
     private String isAffiliated;
-    private String isPublished;
-    private String isMainNews;
+    private String postedDate;
+    private String modifiedDateTime;
+
 }

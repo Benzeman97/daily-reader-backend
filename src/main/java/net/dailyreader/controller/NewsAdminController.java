@@ -14,7 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
-@CrossOrigin(origins = {"https://dailyreader.net","https://www.dailyreader.net","http://127.0.0.1:3000"}, maxAge = 3600)
+@CrossOrigin(origins = {"https://dailyreader.net","https://www.dailyreader.net","http://127.0.0.1:3000","http://127.0.0.1:8045"}, maxAge = 3600)
 @RestController
 @RequestMapping("/api/admin/news")
 public class NewsAdminController {
