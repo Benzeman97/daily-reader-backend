@@ -43,6 +43,7 @@ public class NewsController {
 
     @GetMapping(value = "/search",produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<List<NewsSearch>> getNewsBySearch(@RequestParam("q") String name){
+
         return (name.trim().isEmpty()) ?
                 new ResponseEntity<>(HttpStatus.BAD_REQUEST) :
                 new ResponseEntity<>(newsService.getNewsBySearch(name),HttpStatus.OK);
@@ -59,10 +60,10 @@ public class NewsController {
     }
 
     @GetMapping(value = "/related",produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<RelatedNewsResponse> getRelatedNews(@RequestParam("type") String type){
-        return (type.trim().isEmpty()) ?
+    public ResponseEntity<RelatedNewsResponse> getRelatedNews(@RequestParam("id") int id,@RequestParam("type") String type){
+        return (id <=0 || type.trim().isEmpty()) ?
                 new ResponseEntity<>(HttpStatus.BAD_REQUEST) :
-                new ResponseEntity<>(newsService.getRelatedNews(type),HttpStatus.OK);
+                new ResponseEntity<>(newsService.getRelatedNews(id,type),HttpStatus.OK);
     }
 
     @GetMapping(value = "/detail",produces = {MediaType.APPLICATION_JSON_VALUE})

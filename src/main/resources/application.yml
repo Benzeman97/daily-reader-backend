@@ -5,4 +5,4 @@ spring:
   application:
     name: daily-reader-service
   profiles:
-    active: dev
+    active: prod

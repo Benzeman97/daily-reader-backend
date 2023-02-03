@@ -11,10 +11,9 @@ public interface NewsService {
     NewsListResponse getNewsListByType(String type,int page);
     MainNewsResponse getMainNews();
     TrendingNewsResponse getTrendingNews();
-    RelatedNewsResponse getRelatedNews(String type);
+    RelatedNewsResponse getRelatedNews(int id,String type);
     NewsResponse getNews(int newsId);
     ParagraphResponse getParagraphs(int newsId);
     MediaResponse getMedias(int newsId);
-
     List<NewsSearch> getNewsBySearch(String name);
 }

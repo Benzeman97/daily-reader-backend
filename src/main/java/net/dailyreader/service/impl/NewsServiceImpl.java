@@ -14,6 +14,7 @@ import net.dailyreader.model.TrendingNews;
 import net.dailyreader.service.NewsService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -27,6 +28,10 @@ public class NewsServiceImpl implements NewsService {
 
     final private static Logger LOGGER = LogManager.getLogger(NewsServiceImpl.class);
 
+    public static final String MAIN_NEWS_MODEL_KEY = "MAIN_NEWS_MODEL";
+    public static final String TRENDING_NEWS_MODEL_KEY = "TRENDING_NEWS_MODEL";
+
+
     private NewsDao newsDao;
     private ParagraphDao paragraphDao;
     private MediaDao mediaDao;
@@ -38,6 +43,7 @@ public class NewsServiceImpl implements NewsService {
     }
 
     @Override
+    @Cacheable(key="{#page,#root.methodName}",value = "READER")
     public NewsListResponse getNewsList(int page) {
 
         String is_main_news="no";
@@ -66,6 +72,7 @@ public class NewsServiceImpl implements NewsService {
     }
 
     @Override
+    @Cacheable(key="{#type,#page,#root.methodName}",value = "READER")
     public NewsListResponse getNewsListByType(String type, int page) {
 
         String is_published="yes";
@@ -94,6 +101,7 @@ public class NewsServiceImpl implements NewsService {
     }
 
     @Override
+    @Cacheable(key="#root.target.MAIN_NEWS_MODEL_KEY",value = "READER")
     public MainNewsResponse getMainNews() {
 
 
@@ -114,6 +122,7 @@ public class NewsServiceImpl implements NewsService {
     }
 
     @Override
+    @Cacheable(key="#root.target.TRENDING_NEWS_MODEL_KEY",value = "READER")
     public TrendingNewsResponse getTrendingNews() {
 
         String is_affiliated="no";
@@ -131,14 +140,15 @@ public class NewsServiceImpl implements NewsService {
     }
 
     @Override
-    public RelatedNewsResponse getRelatedNews(String type) {
+    @Cacheable(key="{#id,#type,#root.methodName}",value = "READER")
+    public RelatedNewsResponse getRelatedNews(int id,String type) {
 
         String is_published="yes";
 
         List<News> newsList = newsDao.getRelatedNews(type,is_published)
                 .orElse(new ArrayList<>());
 
-        List<NewsBody> newsBodyList = newsList.stream().map(n->new NewsBody(n.getNewsId(),n.getTitle(),n.getSubTitle(),
+        List<NewsBody> newsBodyList = newsList.stream().filter(n->isCheck(n.getNewsId(),id)).map(n->new NewsBody(n.getNewsId(),n.getTitle(),n.getSubTitle(),
                 n.getPreviewImg(),getDate(n.getPostedDateTime()),n.getAuthor(),n.getNewsType())).collect(Collectors.toList());
 
         LOGGER.info(String.format("news list is returned with type %s",type));
@@ -146,7 +156,12 @@ public class NewsServiceImpl implements NewsService {
         return new RelatedNewsResponse(newsBodyList);
     }
 
+    private boolean isCheck(int id,int newsId){
+        return (id!=newsId) ? true : false;
+    }
+
     @Override
+    @Cacheable(key="{#newsId,#root.methodName}",value = "READER")
     public NewsResponse getNews(int newsId) {
 
         News news = newsDao.findNewsById(newsId)
@@ -163,6 +178,7 @@ public class NewsServiceImpl implements NewsService {
     }
 
     @Override
+    @Cacheable(key="{#newsId,#root.methodName}",value = "READER")
     public ParagraphResponse getParagraphs(int newsId) {
 
               List<Paragraph> paragraphs = paragraphDao.findNewsById(newsId)
@@ -283,6 +299,7 @@ public class NewsServiceImpl implements NewsService {
     }
 
     @Override
+    @Cacheable(key="{#newsId,#root.methodName}",value = "READER")
     public MediaResponse getMedias(int newsId) {
 
           List<Media> mediaList =  mediaDao.findNewsById(newsId)
@@ -298,6 +315,7 @@ public class NewsServiceImpl implements NewsService {
     }
 
     @Override
+    @Cacheable(key="{#name,#root.methodName}",value = "READER")
     public List<NewsSearch> getNewsBySearch(String name) {
 
         String is_published="yes";

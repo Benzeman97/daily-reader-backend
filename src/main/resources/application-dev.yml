@@ -1,4 +1,28 @@
 
+discovery:
+ server:
+  port: 8070
+  hostName: 18.118.73.177
+
+eureka:
+ client:
+  serviceUrl:
+   defaultZone: 'http://${discovery.server.hostName}:${discovery.server.port}/eureka'
+  region: us-east-2
+  register-with-eureka: true
+  fetch-registry: true
+ instance:
+  preferIpAddress: true
+  ip-address: 18.118.73.177
+  hostname: 18.118.73.177
+  #non-secure-port: 9096
+
+logging:
+ file:
+  name: '/home/ubuntu/reader-logs/reader-app-prod.log'
+ level:
+  root: info
+
 management:
  endpoint:
   shutdown:
@@ -31,3 +55,10 @@ spring:
   show-sql: true
   hibernate:
    ddl-auto: update
+ redis:
+  host: 51.89.190.208
+  port: 6969
+  cache:
+   redis:
+    time-to-live: 1200000
+   cache-names: READER
