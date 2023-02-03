@@ -2,6 +2,7 @@ package net.dailyreader.controller;
 
 
 import net.dailyreader.dto.response.*;
+import net.dailyreader.model.NewsSearch;
 import net.dailyreader.service.NewsAdminService;
 import net.dailyreader.service.NewsService;
 import org.apache.logging.log4j.LogManager;
@@ -10,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @CrossOrigin(origins = {"https://dailyreader.net","https://www.dailyreader.net","http://127.0.0.1:3000","http://127.0.0.1:8045"}, maxAge = 3600)
 @RestController
@@ -29,6 +32,20 @@ public class NewsController {
         return (page==0) ?
              new ResponseEntity<>(HttpStatus.BAD_REQUEST) :
              new ResponseEntity<>(newsService.getNewsList(page),HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/list-type",produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<NewsListResponse> getNewsListByType(@RequestParam("type") String type,@RequestParam("page") int page){
+        return (page==0 || type.trim().isEmpty()) ?
+                new ResponseEntity<>(HttpStatus.BAD_REQUEST) :
+                new ResponseEntity<>(newsService.getNewsListByType(type,page),HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/search",produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<List<NewsSearch>> getNewsBySearch(@RequestParam("q") String name){
+        return (name.trim().isEmpty()) ?
+                new ResponseEntity<>(HttpStatus.BAD_REQUEST) :
+                new ResponseEntity<>(newsService.getNewsBySearch(name),HttpStatus.OK);
     }
 
     @GetMapping(value = "/main",produces = {MediaType.APPLICATION_JSON_VALUE})

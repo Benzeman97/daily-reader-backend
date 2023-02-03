@@ -9,6 +9,7 @@ import net.dailyreader.entity.News;
 import net.dailyreader.entity.Paragraph;
 import net.dailyreader.exception.DataNotFoundException;
 import net.dailyreader.model.NewsBody;
+import net.dailyreader.model.NewsSearch;
 import net.dailyreader.model.TrendingNews;
 import net.dailyreader.service.NewsService;
 import org.apache.logging.log4j.LogManager;
@@ -59,9 +60,37 @@ public class NewsServiceImpl implements NewsService {
 
          LOGGER.info(String.format("news list is returned with page %d",page));
 
-         long numOfNews = newsDao.countNews();
+         long numOfNews = newsDao.countNews(is_published);
 
         return new NewsListResponse(newsBodyList,numOfNews);
+    }
+
+    @Override
+    public NewsListResponse getNewsListByType(String type, int page) {
+
+        String is_published="yes";
+
+        int itemPerPage = 16;
+
+        int start=page;
+
+        if(start==1)
+            start=0;
+        else
+            start= (page-1) * itemPerPage;
+
+        List<News> newsList = newsDao.getNewsListByType(type,is_published,start,itemPerPage)
+                .orElse(new ArrayList<>());
+
+        List<NewsBody> newsBodyList = newsList.stream().map(n->new NewsBody(n.getNewsId(),n.getTitle(),n.getSubTitle(),
+                n.getPreviewImg(),getDate(n.getPostedDateTime()),n.getAuthor(),n.getNewsType())).collect(Collectors.toList());
+
+        LOGGER.info(String.format("news list is returned with type %s and page %d",type,page));
+
+        long numOfNews = newsDao.countNewsByType(type,is_published);
+
+        return new NewsListResponse(newsBodyList,numOfNews);
+
     }
 
     @Override
@@ -139,6 +168,7 @@ public class NewsServiceImpl implements NewsService {
               List<Paragraph> paragraphs = paragraphDao.findNewsById(newsId)
                        .orElse(new ArrayList<>());
 
+
         ParagraphResponse paragraphResponse = new ParagraphResponse();
 
         paragraphs.forEach(p->getParagraphResponse(p,paragraphResponse));
@@ -150,103 +180,102 @@ public class NewsServiceImpl implements NewsService {
 
     private ParagraphResponse getParagraphResponse(Paragraph paragraph,ParagraphResponse paragraphResponse){
 
-
-        if(paragraph.getParagraphNum()=="01"){
+        if(paragraph.getParagraphNum().equalsIgnoreCase("01")){
             paragraphResponse.setParagraph_01(paragraph.getParagraph());
             paragraphResponse.setParagraphNum_01(paragraph.getParagraphNum());
         }
 
-        if(paragraph.getParagraphNum()=="02"){
+        if(paragraph.getParagraphNum().equalsIgnoreCase("02")){
             paragraphResponse.setParagraph_02(paragraph.getParagraph());
             paragraphResponse.setParagraphNum_02(paragraph.getParagraphNum());
         }
 
-        if(paragraph.getParagraphNum()=="03"){
+        if(paragraph.getParagraphNum().equalsIgnoreCase("03")){
             paragraphResponse.setParagraph_03(paragraph.getParagraph());
             paragraphResponse.setParagraphNum_03(paragraph.getParagraphNum());
         }
 
-        if(paragraph.getParagraphNum()=="04"){
+        if(paragraph.getParagraphNum().equalsIgnoreCase("04")){
             paragraphResponse.setParagraph_04(paragraph.getParagraph());
             paragraphResponse.setParagraphNum_04(paragraph.getParagraphNum());
         }
 
-        if(paragraph.getParagraphNum()=="05"){
+        if(paragraph.getParagraphNum().equalsIgnoreCase("05")){
             paragraphResponse.setParagraph_05(paragraph.getParagraph());
             paragraphResponse.setParagraphNum_05(paragraph.getParagraphNum());
         }
 
-        if(paragraph.getParagraphNum()=="06"){
+        if(paragraph.getParagraphNum().equalsIgnoreCase("06")){
             paragraphResponse.setParagraph_06(paragraph.getParagraph());
             paragraphResponse.setParagraphNum_06(paragraph.getParagraphNum());
         }
 
-        if(paragraph.getParagraphNum()=="07"){
+        if(paragraph.getParagraphNum().equalsIgnoreCase("07")){
             paragraphResponse.setParagraph_07(paragraph.getParagraph());
             paragraphResponse.setParagraphNum_07(paragraph.getParagraph());
         }
 
-        if(paragraph.getParagraphNum()=="08"){
+        if(paragraph.getParagraphNum().equalsIgnoreCase("08")){
             paragraphResponse.setParagraph_08(paragraph.getParagraph());
             paragraphResponse.setParagraphNum_08(paragraph.getParagraphNum());
         }
 
-        if(paragraph.getParagraphNum()=="09"){
+        if(paragraph.getParagraphNum().equalsIgnoreCase("09")){
             paragraphResponse.setParagraph_09(paragraph.getParagraph());
             paragraphResponse.setParagraphNum_09(paragraph.getParagraphNum());
         }
 
-        if(paragraph.getParagraphNum()=="10"){
+        if(paragraph.getParagraphNum().equalsIgnoreCase("10")){
             paragraphResponse.setParagraph_10(paragraph.getParagraph());
             paragraphResponse.setParagraphNum_10(paragraph.getParagraphNum());
         }
 
-        if(paragraph.getParagraphNum()=="11"){
+        if(paragraph.getParagraphNum().equalsIgnoreCase("11")){
             paragraphResponse.setParagraph_11(paragraph.getParagraph());
             paragraphResponse.setParagraphNum_11(paragraph.getParagraphNum());
         }
 
-        if(paragraph.getParagraphNum()=="12"){
+        if(paragraph.getParagraphNum().equalsIgnoreCase("12")){
             paragraphResponse.setParagraph_12(paragraph.getParagraph());
             paragraphResponse.setParagraphNum_12(paragraph.getParagraphNum());
         }
 
-        if(paragraph.getParagraphNum()=="13"){
+        if(paragraph.getParagraphNum().equalsIgnoreCase("13")){
             paragraphResponse.setParagraph_13(paragraph.getParagraph());
             paragraphResponse.setParagraphNum_13(paragraph.getParagraphNum());
         }
 
-        if(paragraph.getParagraphNum()=="14"){
+        if(paragraph.getParagraphNum().equalsIgnoreCase("14")){
             paragraphResponse.setParagraph_14(paragraph.getParagraph());
             paragraphResponse.setParagraphNum_14(paragraph.getParagraphNum());
         }
 
-        if(paragraph.getParagraphNum()=="15"){
+        if(paragraph.getParagraphNum().equalsIgnoreCase("15")){
             paragraphResponse.setParagraph_15(paragraph.getParagraph());
             paragraphResponse.setParagraphNum_15(paragraph.getParagraphNum());
         }
 
-        if(paragraph.getParagraphNum()=="16"){
+        if(paragraph.getParagraphNum().equalsIgnoreCase("16")){
             paragraphResponse.setParagraph_16(paragraph.getParagraph());
             paragraphResponse.setParagraphNum_16(paragraph.getParagraphNum());
         }
 
-        if(paragraph.getParagraphNum()=="17"){
+        if(paragraph.getParagraphNum().equalsIgnoreCase("17")){
             paragraphResponse.setParagraph_17(paragraph.getParagraph());
             paragraphResponse.setParagraphNum_17(paragraph.getParagraphNum());
         }
 
-        if(paragraph.getParagraphNum()=="18"){
+        if(paragraph.getParagraphNum().equalsIgnoreCase("18")){
             paragraphResponse.setParagraph_18(paragraph.getParagraph());
             paragraphResponse.setParagraphNum_18(paragraph.getParagraphNum());
         }
 
-        if(paragraph.getParagraphNum()=="19"){
+        if(paragraph.getParagraphNum().equalsIgnoreCase("19")){
             paragraphResponse.setParagraph_19(paragraph.getParagraph());
             paragraphResponse.setParagraphNum_19(paragraph.getParagraphNum());
         }
 
-        if(paragraph.getParagraphNum()=="20"){
+        if(paragraph.getParagraphNum().equalsIgnoreCase("20")){
             paragraphResponse.setParagraph_20(paragraph.getParagraph());
             paragraphResponse.setParagraphNum_20(paragraph.getParagraphNum());
         }
@@ -268,9 +297,23 @@ public class NewsServiceImpl implements NewsService {
         return mediaResponse;
     }
 
+    @Override
+    public List<NewsSearch> getNewsBySearch(String name) {
+
+        String is_published="yes";
+
+        List<News> newsList = newsDao.getNewsBySearch(name,is_published)
+                .orElse(new ArrayList<>());
+
+        LOGGER.info(String.format("news list is returned by search with "+name));
+
+        return newsList.stream().map(n->new NewsSearch(n.getNewsId(),n.getTitle(),n.getSubTitle(),n.getPreviewImg(),n.getNewsType()))
+                .collect(Collectors.toList());
+    }
+
     private MediaResponse setMediaResponse(Media media,MediaResponse mediaResponse){
 
-        if(media.getMediaNum()=="01"){
+        if(media.getMediaNum().equalsIgnoreCase("01")){
             mediaResponse.setMediaType_01(media.getMediaType());
             mediaResponse.setMediaNum_01(media.getMediaNum());
             mediaResponse.setMediaLink_01(media.getMediaLink());
@@ -288,7 +331,7 @@ public class NewsServiceImpl implements NewsService {
             mediaResponse.setImgWidth_01(media.getImgWidth());
         }
 
-        if(media.getMediaNum()=="02"){
+        if(media.getMediaNum().equalsIgnoreCase("02")){
             mediaResponse.setMediaType_02(media.getMediaType());
             mediaResponse.setMediaNum_02(media.getMediaNum());
             mediaResponse.setMediaLink_02(media.getMediaLink());
@@ -306,7 +349,7 @@ public class NewsServiceImpl implements NewsService {
             mediaResponse.setImgWidth_02(media.getImgWidth());
         }
 
-        if(media.getMediaNum()=="03"){
+        if(media.getMediaNum().equalsIgnoreCase("03")){
             mediaResponse.setMediaType_03(media.getMediaType());
             mediaResponse.setMediaNum_03(media.getMediaNum());
             mediaResponse.setMediaLink_03(media.getMediaLink());
@@ -324,7 +367,7 @@ public class NewsServiceImpl implements NewsService {
             mediaResponse.setImgWidth_03(media.getImgWidth());
         }
 
-        if(media.getMediaNum()=="04"){
+        if(media.getMediaNum().equalsIgnoreCase("04")){
             mediaResponse.setMediaType_04(media.getMediaType());
             mediaResponse.setMediaNum_04(media.getMediaNum());
             mediaResponse.setMediaLink_04(media.getMediaLink());
@@ -342,7 +385,7 @@ public class NewsServiceImpl implements NewsService {
             mediaResponse.setImgWidth_04(media.getImgWidth());
         }
 
-        if(media.getMediaNum()=="05"){
+        if(media.getMediaNum().equalsIgnoreCase("05")){
             mediaResponse.setMediaType_05(media.getMediaType());
             mediaResponse.setMediaNum_05(media.getMediaNum());
             mediaResponse.setMediaLink_05(media.getMediaLink());
@@ -360,7 +403,7 @@ public class NewsServiceImpl implements NewsService {
             mediaResponse.setImgWidth_05(media.getImgWidth());
         }
 
-        if(media.getMediaNum()=="06"){
+        if(media.getMediaNum().equalsIgnoreCase("06")){
             mediaResponse.setMediaType_06(media.getMediaType());
             mediaResponse.setMediaNum_06(media.getMediaNum());
             mediaResponse.setMediaLink_06(media.getMediaLink());

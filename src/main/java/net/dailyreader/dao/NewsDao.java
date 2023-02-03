@@ -24,8 +24,17 @@ public interface NewsDao extends JpaRepository<News,Integer> {
     @Query(value = "select * from news n where lower(n.main_news) = :is_main_news and lower(n.is_published) = :is_published order by n.posted_date_time desc limit :limit offset :offset",nativeQuery = true)
     Optional<List<News>> getNewsList(@Param("is_main_news") String is_main_news,@Param("is_published") String is_published,@Param("offset") int offset,@Param("limit") int limit);
 
-    @Query(value = "select count(*) from news",nativeQuery = true)
-    long countNews();
+
+    @Query(value = "select * from news n where lower(n.is_published) = :is_published and lower(n.news_type) like concat('%',lower(:type),'%') order by n.posted_date_time desc limit :limit offset :offset",nativeQuery = true)
+    Optional<List<News>> getNewsListByType(@Param("type") String type,@Param("is_published") String is_published,@Param("offset") int offset,@Param("limit") int limit);
+    @Query(value = "select count(*) from news where lower(n.is_published) = :is_published",nativeQuery = true)
+    long countNews(@Param("is_published") String is_published);
+
+    @Query(value = "select count(*) from news where lower(n.is_published) = :is_published and lower(n.news_type) like concat('%',lower(:type),'%')",nativeQuery = true)
+    long countNewsByType(@Param("type") String type,@Param("is_published") String is_published);
+
+    @Query(value = "select * from news n where lower(n.is_published) = :is_published and lower(n.title) like concat(lower(:name),'%') limit 8",nativeQuery = true)
+    Optional<List<News>> getNewsBySearch(@Param("name") String name,@Param("is_published") String is_published);
 
     @Query(value = "select * from news n where lower(n.is_affiliated) = :is_affiliated and lower(n.main_news) = :is_main_news and lower(n.is_published) = :is_published order by n.updated_date_time desc limit 1",nativeQuery = true)
     Optional<News> getMainNews(@Param("is_affiliated") String is_affiliated,@Param("is_main_news") String is_main_news,@Param("is_published") String is_published);
