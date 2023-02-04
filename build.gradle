@@ -47,6 +47,11 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
+bootJar{
+	archivesBaseName='daily-reader-service'
+	archiveFileName='daily-reader-service.jar'
+}
+
 tasks.named('test') {
 	useJUnitPlatform()
 }
