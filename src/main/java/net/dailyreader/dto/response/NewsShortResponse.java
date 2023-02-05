@@ -25,4 +25,5 @@ public class NewsShortResponse implements Serializable {
     private String isAffiliated;
     private String isPublished;
     private String isMainNews;
+    private String authorLink;
 }

@@ -63,12 +63,12 @@ public class NewsAdminServiceImpl implements NewsAdminService {
          LOGGER.info(String.format("new newsId is returned with %d",id));
             return new NewsShortResponse(id,title,"","","",
                     "","","","",0.0,"","",
-                    "","");
+                    "","","");
         }
         LOGGER.info(String.format("news is found with title %s",title));
         return new NewsShortResponse(news.getNewsId(),news.getTitle(), news.getSubTitle(),news.getPreviewImg(),news.getImgUrl(),
                 news.getOrgImg(),news.getImgOwn(),news.getAuthor(),news.getNewsType(),news.getViews(),news.getIsLicensed(),news.getIsAffiliated(),
-                news.getIsPublished(),news.getIsMainNews());
+                news.getIsPublished(),news.getIsMainNews(),news.getAuthorLink());
 
     }
 
@@ -181,6 +181,7 @@ public class NewsAdminServiceImpl implements NewsAdminService {
         news.setIsLicensed(request.getIsLicensed());
         news.setIsAffiliated(request.getIsAffiliated());
         news.setIsMainNews(request.getIsMainNews());
+        news.setAuthorLink(request.getAuthorLink());
         news.setIsPublished(request.getIsPublished());
         news.setUpdatedDateTime(LocalDateTime.now());
 

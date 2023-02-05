@@ -53,6 +53,9 @@ public class News {
     @Column(name = "main_news")
     private String isMainNews;
 
+    @Column(name = "author_link")
+    private String authorLink;
+
     @Column(name = "posted_date_time")
     private LocalDateTime postedDateTime;
 
@@ -197,5 +200,13 @@ public class News {
 
     public void setIsMainNews(String isMainNews) {
         this.isMainNews = isMainNews;
+    }
+
+    public String getAuthorLink() {
+        return authorLink;
+    }
+
+    public void setAuthorLink(String authorLink) {
+        this.authorLink = authorLink;
     }
 }

@@ -55,8 +55,8 @@ public class NewsController {
     }
 
     @GetMapping(value = "/trending",produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<TrendingNewsResponse> getTrendingNews(){
-        return new ResponseEntity<>(newsService.getTrendingNews(),HttpStatus.OK);
+    public ResponseEntity<TrendingNewsResponse> getTrendingNews(@RequestParam("id") int id){
+        return new ResponseEntity<>(newsService.getTrendingNews(id),HttpStatus.OK);
     }
 
     @GetMapping(value = "/related",produces = {MediaType.APPLICATION_JSON_VALUE})

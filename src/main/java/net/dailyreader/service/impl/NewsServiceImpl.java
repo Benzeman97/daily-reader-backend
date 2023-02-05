@@ -29,9 +29,7 @@ public class NewsServiceImpl implements NewsService {
     final private static Logger LOGGER = LogManager.getLogger(NewsServiceImpl.class);
 
     public static final String MAIN_NEWS_MODEL_KEY = "MAIN_NEWS_MODEL";
-    public static final String TRENDING_NEWS_MODEL_KEY = "TRENDING_NEWS_MODEL";
-
-
+//    public static final String TRENDING_NEWS_MODEL_KEY = "TRENDING_NEWS_MODEL";
     private NewsDao newsDao;
     private ParagraphDao paragraphDao;
     private MediaDao mediaDao;
@@ -122,8 +120,8 @@ public class NewsServiceImpl implements NewsService {
     }
 
     @Override
-    @Cacheable(key="#root.target.TRENDING_NEWS_MODEL_KEY",value = "READER")
-    public TrendingNewsResponse getTrendingNews() {
+    @Cacheable(key="{#id,#root.methodName}",value = "READER")
+    public TrendingNewsResponse getTrendingNews(int id) {
 
         String is_affiliated="no";
         String is_published="yes";
@@ -131,7 +129,7 @@ public class NewsServiceImpl implements NewsService {
         List<News> newsList = newsDao.getTrendingNewsList(is_affiliated,is_published)
                 .orElse(new ArrayList<>());
 
-        List<TrendingNews> trendingNewsList = newsList.stream().map(news->new TrendingNews(news.getNewsId(),news.getTitle(),news.getPreviewImg()))
+        List<TrendingNews> trendingNewsList = newsList.stream().filter(n->isCheck(n.getNewsId(),id)).map(news->new TrendingNews(news.getNewsId(),news.getTitle(),news.getPreviewImg()))
                 .collect(Collectors.toList());
 
         LOGGER.info(String.format("trending news list is returned"));
@@ -174,7 +172,7 @@ public class NewsServiceImpl implements NewsService {
 
         return new NewsResponse(news.getNewsId(),news.getTitle(),news.getSubTitle(),news.getPreviewImg(),news.getImgUrl(),
                 news.getOrgImg(),news.getImgOwn(),news.getAuthor(),news.getNewsType(),news.getViews(),news.getIsLicensed(),news.getIsAffiliated(),
-                getDate(news.getPostedDateTime()),getDateTime(news.getUpdatedDateTime()));
+                getDate(news.getPostedDateTime()),getDateTime(news.getUpdatedDateTime()),news.getAuthorLink());
     }
 
     @Override

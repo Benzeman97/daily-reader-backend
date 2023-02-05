@@ -42,4 +42,5 @@ public class NewsAdminRequest implements Serializable {
     private String imgWidth;
     private String isPublished;
     private String isMainNews;
+    private String authorLink;
 }
