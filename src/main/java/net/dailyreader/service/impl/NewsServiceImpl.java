@@ -47,7 +47,7 @@ public class NewsServiceImpl implements NewsService {
         String is_main_news="no";
         String is_published="yes";
 
-        int itemPerPage = 16;
+        int itemPerPage = 15;
 
         int start=page;
 
@@ -75,7 +75,7 @@ public class NewsServiceImpl implements NewsService {
 
         String is_published="yes";
 
-        int itemPerPage = 16;
+        int itemPerPage = 15;
 
         int start=page;
 
@@ -129,7 +129,7 @@ public class NewsServiceImpl implements NewsService {
         List<News> newsList = newsDao.getTrendingNewsList(is_affiliated,is_published)
                 .orElse(new ArrayList<>());
 
-        List<TrendingNews> trendingNewsList = newsList.stream().filter(n->isCheck(n.getNewsId(),id)).map(news->new TrendingNews(news.getNewsId(),news.getTitle(),news.getPreviewImg()))
+        List<TrendingNews> trendingNewsList = newsList.stream().filter(n->isCheck(n.getNewsId(),id)).map(news->new TrendingNews(news.getNewsId(),news.getTitle(),news.getPreviewImg(),news.getNewsType()))
                 .collect(Collectors.toList());
 
         LOGGER.info(String.format("trending news list is returned"));
@@ -172,7 +172,7 @@ public class NewsServiceImpl implements NewsService {
 
         return new NewsResponse(news.getNewsId(),news.getTitle(),news.getSubTitle(),news.getPreviewImg(),news.getImgUrl(),
                 news.getOrgImg(),news.getImgOwn(),news.getAuthor(),news.getNewsType(),news.getViews(),news.getIsLicensed(),news.getIsAffiliated(),
-                getDate(news.getPostedDateTime()),getDateTime(news.getUpdatedDateTime()),news.getAuthorLink());
+                getDate(news.getPostedDateTime()),getDateTime(news.getUpdatedDateTime()),news.getAuthorLink(),news.getOrgArticle(),news.getOrgArticleLink());
     }
 
     @Override
@@ -226,7 +226,7 @@ public class NewsServiceImpl implements NewsService {
 
         if(paragraph.getParagraphNum().equalsIgnoreCase("07")){
             paragraphResponse.setParagraph_07(paragraph.getParagraph());
-            paragraphResponse.setParagraphNum_07(paragraph.getParagraph());
+            paragraphResponse.setParagraphNum_07(paragraph.getParagraphNum());
         }
 
         if(paragraph.getParagraphNum().equalsIgnoreCase("08")){

@@ -44,9 +44,9 @@ public class NewsAdminServiceImpl implements NewsAdminService {
                 .orElse(new News());
 
         news = newsDao.save(setNews(news,request));
-        if(!request.getParagraph().trim().isEmpty())
+        if(Objects.nonNull(request.getParagraph()))
         saveParagraph(request,news.getNewsId());
-        if(!request.getMediaLink().trim().isEmpty())
+        if(Objects.nonNull(request.getMediaLink()))
         saveMedia(request,news.getNewsId());
         LOGGER.info(String.format("news has been saved"));
 
@@ -59,16 +59,16 @@ public class NewsAdminServiceImpl implements NewsAdminService {
                 .orElse(null);
 
         if(Objects.isNull(news)){
-         int id = newsDao.findLastUpdatedNewsId()+1;
+         int id = (newsDao.findLastUpdatedNewsId()+1);
          LOGGER.info(String.format("new newsId is returned with %d",id));
             return new NewsShortResponse(id,title,"","","",
                     "","","","",0.0,"","",
-                    "","","");
+                    "","","","","");
         }
         LOGGER.info(String.format("news is found with title %s",title));
         return new NewsShortResponse(news.getNewsId(),news.getTitle(), news.getSubTitle(),news.getPreviewImg(),news.getImgUrl(),
                 news.getOrgImg(),news.getImgOwn(),news.getAuthor(),news.getNewsType(),news.getViews(),news.getIsLicensed(),news.getIsAffiliated(),
-                news.getIsPublished(),news.getIsMainNews(),news.getAuthorLink());
+                news.getIsPublished(),news.getIsMainNews(),news.getAuthorLink(),news.getOrgArticle(),news.getOrgArticleLink());
 
     }
 
@@ -184,6 +184,8 @@ public class NewsAdminServiceImpl implements NewsAdminService {
         news.setAuthorLink(request.getAuthorLink());
         news.setIsPublished(request.getIsPublished());
         news.setUpdatedDateTime(LocalDateTime.now());
+        news.setOrgArticle(request.getOrgArticle());
+        news.setOrgArticleLink(request.getOrgArticleLink());
 
         return news;
     }

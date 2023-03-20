@@ -42,7 +42,8 @@ public class Media {
     @Column(name = "owner_link")
     private String ownerLink;
 
-    private long videoId;
+    @Column(name = "video_id")
+    private String videoId;
 
     @Column(name = "is_img_licensed")
     private String isImgLicensed;
@@ -146,11 +147,11 @@ public class Media {
         this.ownerLink = ownerLink;
     }
 
-    public long getVideoId() {
+    public String getVideoId() {
         return videoId;
     }
 
-    public void setVideoId(long videoId) {
+    public void setVideoId(String videoId) {
         this.videoId = videoId;
     }
 

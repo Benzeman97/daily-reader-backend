@@ -34,9 +34,10 @@ management:
           - '*'
 
 database:
-  host: '3.134.205.70'
+  host: '3.18.118.202'
   port: 3306
   db-name: dailyreader
+
 
 spring:
   datasource:
@@ -56,9 +57,9 @@ spring:
     hibernate:
       ddl-auto: update
   redis:
-    host: 3.134.205.70
+    host: 3.18.118.202
     port: 6969
-    cache:
-      redis:
-        time-to-live: 1200000
-      cache-names: READER
+  cache:
+    cache-names: READER
+    redis:
+      time-to-live: 120000

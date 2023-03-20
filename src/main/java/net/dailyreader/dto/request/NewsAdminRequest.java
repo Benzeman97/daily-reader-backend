@@ -35,7 +35,7 @@ public class NewsAdminRequest implements Serializable {
     private String pubLink;
     private String pubDate;
     private String ownerLink;
-    private long videoId;
+    private String videoId;
     private String isImgLicensed;
     private String isImgVertical;
     private String imgHeight;
@@ -43,4 +43,6 @@ public class NewsAdminRequest implements Serializable {
     private String isPublished;
     private String isMainNews;
     private String authorLink;
+    private String orgArticle;
+    private String orgArticleLink;
 }

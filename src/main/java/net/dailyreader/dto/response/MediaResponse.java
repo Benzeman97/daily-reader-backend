@@ -21,7 +21,7 @@ public class MediaResponse implements Serializable {
     private String pubLink_01;
     private String pubDate_01;
     private String ownerLink_01;
-    private long videoId_01;
+    private String videoId_01;
     private String isImgLicensed_01;
     private String isImgVertical_01;
     private String imgHeight_01;
@@ -36,7 +36,7 @@ public class MediaResponse implements Serializable {
     private String pubLink_02;
     private String pubDate_02;
     private String ownerLink_02;
-    private long videoId_02;
+    private String videoId_02;
     private String isImgLicensed_02;
     private String isImgVertical_02;
     private String imgHeight_02;
@@ -51,7 +51,7 @@ public class MediaResponse implements Serializable {
     private String pubLink_03;
     private String pubDate_03;
     private String ownerLink_03;
-    private long videoId_03;
+    private String videoId_03;
     private String isImgLicensed_03;
     private String isImgVertical_03;
     private String imgHeight_03;
@@ -66,7 +66,7 @@ public class MediaResponse implements Serializable {
     private String pubLink_04;
     private String pubDate_04;
     private String ownerLink_04;
-    private long videoId_04;
+    private String videoId_04;
     private String isImgLicensed_04;
     private String isImgVertical_04;
     private String imgHeight_04;
@@ -81,7 +81,7 @@ public class MediaResponse implements Serializable {
     private String pubLink_05;
     private String pubDate_05;
     private String ownerLink_05;
-    private long videoId_05;
+    private String videoId_05;
     private String isImgLicensed_05;
     private String isImgVertical_05;
     private String imgHeight_05;
@@ -96,7 +96,7 @@ public class MediaResponse implements Serializable {
     private String pubLink_06;
     private String pubDate_06;
     private String ownerLink_06;
-    private long videoId_06;
+    private String videoId_06;
     private String isImgLicensed_06;
     private String isImgVertical_06;
     private String imgHeight_06;

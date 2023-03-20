@@ -16,4 +16,5 @@ public class TrendingNews implements Serializable {
     private int newsId;
     private String title;
     private String previewImg;
+	private String newsType;
 }

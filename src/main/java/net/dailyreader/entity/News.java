@@ -56,6 +56,12 @@ public class News {
     @Column(name = "author_link")
     private String authorLink;
 
+    @Column(name = "org_article")
+    private String orgArticle;
+
+    @Column(name = "org_article_link")
+    private String orgArticleLink;
+
     @Column(name = "posted_date_time")
     private LocalDateTime postedDateTime;
 
@@ -208,5 +214,21 @@ public class News {
 
     public void setAuthorLink(String authorLink) {
         this.authorLink = authorLink;
+    }
+
+    public String getOrgArticle() {
+        return orgArticle;
+    }
+
+    public void setOrgArticle(String orgArticle) {
+        this.orgArticle = orgArticle;
+    }
+
+    public void setOrgArticleLink(String orgArticleLink) {
+        this.orgArticleLink = orgArticleLink;
+    }
+
+    public String getOrgArticleLink() {
+        return orgArticleLink;
     }
 }

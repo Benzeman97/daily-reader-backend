@@ -26,5 +26,7 @@ public class NewsResponse implements Serializable {
     private String postedDate;
     private String modifiedDateTime;
     private String authorLink;
+    private String orgArticle;
+    private String orgArticleLink;
 
 }

@@ -18,12 +18,11 @@ public interface NewsDao extends JpaRepository<News,Integer> {
     @Query("from News n where n.newsId = :id")
     Optional<News> findNewsById(@Param("id") int id);
 
-    @Query(value = "select news_id from news n order by n.posted_date_time,n.news_id desc limit 1",nativeQuery = true)
+    @Query(value = "select news_id from news n order by n.posted_date_time desc limit 1",nativeQuery = true)
     int findLastUpdatedNewsId();
 
     @Query(value = "select * from news n where lower(n.main_news) = :is_main_news and lower(n.is_published) = :is_published order by n.posted_date_time desc limit :limit offset :offset",nativeQuery = true)
     Optional<List<News>> getNewsList(@Param("is_main_news") String is_main_news,@Param("is_published") String is_published,@Param("offset") int offset,@Param("limit") int limit);
-
 
     @Query(value = "select * from news n where lower(n.is_published) = :is_published and lower(n.news_type) like concat('%',lower(:type),'%') order by n.posted_date_time desc limit :limit offset :offset",nativeQuery = true)
     Optional<List<News>> getNewsListByType(@Param("type") String type,@Param("is_published") String is_published,@Param("offset") int offset,@Param("limit") int limit);
