@@ -2,7 +2,7 @@
 discovery:
   server:
     port: 8070
-    hostName: 18.220.102.31
+    hostName: 3.136.131.189
 
 eureka:
   client:
@@ -13,8 +13,8 @@ eureka:
     fetch-registry: true
   instance:
     preferIpAddress: true
-    ip-address: 18.220.102.31
-    hostname: 18.220.102.31
+    ip-address: 104.36.85.71
+    hostname: 104.36.85.71
     #non-secure-port: 9096
 
 logging:
@@ -34,7 +34,7 @@ management:
           - '*'
 
 database:
-  host: '3.18.118.202'
+  host: '84.32.41.139'
   port: 3306
   db-name: dailyreader
 
@@ -57,7 +57,7 @@ spring:
     hibernate:
       ddl-auto: update
   redis:
-    host: 3.18.118.202
+    host: 84.32.41.139
     port: 6969
   cache:
     cache-names: READER
